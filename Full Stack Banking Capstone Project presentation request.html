@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" style=""><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet" data-editor-preserved="true">
+    
+    
+    <title>EIF Ethraa Full Stack Capstone Project</title>
+    
+    <style>
+      :root {
+        --navy: #0a192f;
+        --blue: #1e3a8a;
+        --light-blue: #3b82f6;
+        --gray: #f3f4f6;
+        --silver: #e5e7eb;
+        --dark-gray: #4b5563;
+        --white: #ffffff;
+        --accent: #00d8ff;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #d1d5db;
+        margin: 0;
+        padding: 40px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 60px;
+      }
+      .slide {
+        width: 1280px;
+        height: 720px;
+        background-color: var(--white);
+        position: relative;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        animation: fadeUp 0.8s ease both;
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .slide-dark {
+        background-color: var(--navy);
+        color: var(--white);
+      }
+      .slide-header {
+        padding: 30px 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .slide-dark .slide-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .slide-title {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--blue);
+        margin: 0;
+      }
+      .slide-dark .slide-title {
+        color: var(--white);
+      }
+      .slide-content {
+        flex: 1;
+        padding: 30px 50px;
+        position: relative;
+        z-index: 2;
+      }
+      .slide-footer {
+        padding: 15px 50px;
+        background: var(--gray);
+        font-size: 14px;
+        color: var(--dark-gray);
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        font-weight: 600;
+      }
+      .slide-dark .slide-footer {
+        background: #061124;
+        color: rgba(255, 255, 255, 0.6);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      /* Components */
+      .chip {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        display: inline-block;
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+      .chip:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.16);
+      }
+      .card {
+        background: var(--white);
+        border: 1px solid var(--silver);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+      }
+      .dark-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 20px;
+        transition: transform 0.25s ease, border-color 0.25s ease;
+      }
+      .dark-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(0, 216, 255, 0.45);
+      }
+      /* Mockups */
+      .mockup {
+        background: #fff;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .mockup:hover {
+        transform: translateY(-5px) scale(1.005);
+        box-shadow: 0 18px 36px rgba(15, 23, 42, 0.14);
+      }
+      .mockup-header {
+        background: #f3f4f6;
+        padding: 10px 15px;
+        display: flex;
+        gap: 8px;
+        border-bottom: 1px solid #d1d5db;
+        align-items: center;
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .dot.r {
+        background: #ef4444;
+      }
+      .dot.y {
+        background: #f59e0b;
+      }
+      .dot.g {
+        background: #10b981;
+      }
+      .mockup-body {
+        padding: 20px;
+        flex: 1;
+        background: #fafafa;
+        font-size: 14px;
+        color: #333;
+      }
+      .m-input {
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 4px;
+        background: #fff;
+        margin-bottom: 15px;
+        font-size: 12px;
+        color: #666;
+      }
+      .m-btn {
+        background: var(--blue);
+        color: #fff;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .m-btn.success {
+        background: var(--success);
+      }
+      /* Layouts */
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .arch-box {
+        background: var(--navy);
+        color: #fff;
+        padding: 15px;
+        border-radius: 6px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 14px;
+        border: 2px solid var(--accent);
+      }
+      .arch-arrow {
+        flex: 1;
+        height: 2px;
+        background: var(--blue);
+        position: relative;
+        margin: 0 10px;
+      }
+      .arch-arrow::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: -4px;
+        border-left: 8px solid var(--blue);
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+    </style>
+  </head>
+  <body style="">
+    
+    <div class="slide slide-dark">
+      <div style="position: absolute;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(circle at right, #1e3a8a, #0a192f);
+          z-index: 1;"></div>
+      <div style="position: absolute;
+          width: 100%;
+          height: 100%;
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+          background-size: 40px 40px;
+          z-index: 2;"></div>
+      <div class="slide-content" style="display: flex; flex-direction: column; justify-content: center; z-index: 3">
+        <h1 style="font-size: 64px; color: var(--white); margin: 0 0 20px 0; line-height: 1.2">
+          EIF Ethraa Full Stack<br>Capstone Project
+        </h1>
+        <h2 style="font-size: 28px; color: var(--accent); font-weight: 400; margin: 0 0 50px 0">
+          Corporate Banking Digital Transformation
+        </h2>
+        <div style="display: flex; gap: 20px">
+          <div class="chip">Secure Architecture</div>
+          <div class="chip">KYC Automation</div>
+          <div class="chip">Cloud Native</div>
+          <div class="chip">React &amp; Spring Boot</div>
+        </div>
+      </div>
+      <div class="slide-footer" style="z-index: 3">
+        <span>EIF Ethraa | Full Stack Engineering Capstone Project</span>
+        <span>Slide 1</span>
+      </div>
+    </div>
+
+    
+    <div class="slide">
+      <div class="slide-header">
+        <h2 class="slide-title">Business Problem Statement</h2>
+      </div>
+      <div class="slide-content grid-2">
+        <div>
+          <p style="font-size: 18px; color: var(--dark-gray); margin-top: 0">
+            Traditional UAE banking workflows face critical challenges that hinder digital growth and customer
+            satisfaction.
+          </p>
+          <div class="card" style="border-left: 4px solid var(--danger); margin-bottom: 15px">
+            <h4 style="margin: 0 0 5px 0; color: var(--navy)">Manual KYC Onboarding</h4>
+            <p style="margin: 0; font-size: 14px; color: #666">
+              Requires physical presence, resulting in slower approvals.
+            </p>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--warning); margin-bottom: 15px">
+            <h4 style="margin: 0 0 5px 0; color: var(--navy)">Fragmented Workflows</h4>
+            <p style="margin: 0; font-size: 14px; color: #666">
+              Disjointed systems lacking unified Emirates ID validation.
+            </p>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--danger); margin-bottom: 15px">
+            <h4 style="margin: 0 0 5px 0; color: var(--navy)">Legacy Systems</h4>
+            <p style="margin: 0; font-size: 14px; color: #666">Monolithic architectures limiting scalability.</p>
+          </div>
+        </div>
+        <div style="background: var(--navy);
+            border-radius: 8px;
+            padding: 30px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;">
+          <h3 style="color: var(--accent); margin-top: 0">Process Friction</h3>
+          <div style="width: 100%; border: 1px solid rgba(255, 255, 255, 0.2); padding: 15px; margin-bottom: 15px">
+            Customer Visit → Paper Forms → Manual Review
+          </div>
+          <div style="font-size: 24px; color: var(--danger); font-weight: bold; margin-bottom: 15px">VS</div>
+          <div style="width: 100%; border: 1px solid var(--success); background: rgba(16, 185, 129, 0.1); padding: 15px">
+            Digital Portal → Emirates ID API → Instant Approval
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>EIF Ethraa | Full Stack Engineering Capstone Project</span>
+        <span>Slide 2</span>
+      </div>
+    </div>
+
+    
+    <div class="slide" style="background: #f8fafc">
+      <div class="slide-header">
+        <h2 class="slide-title">Project Objective &amp; Vision</h2>
+      </div>
+      <div class="slide-content">
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 40px">
+          <div style="background: #e2e8f0;
+              padding: 15px 30px;
+              border-radius: 30px;
+              font-weight: bold;
+              color: var(--dark-gray);">
+            Legacy Banking
+          </div>
+          <div style="width: 100px; height: 4px; background: var(--blue); position: relative; margin: 0 20px">
+            <div style="position: absolute;
+                right: 0;
+                top: -6px;
+                border-left: 10px solid var(--blue);
+                border-top: 8px solid transparent;
+                border-bottom: 8px solid transparent;"></div>
+          </div>
+          <div style="background: var(--navy);
+              padding: 15px 30px;
+              border-radius: 30px;
+              font-weight: bold;
+              color: var(--accent);">
+            Digital Banking Experience
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="card">
+            <h4 style="color: var(--blue); margin-top: 0">Faster Onboarding</h4>
+            <p style="margin: 0; font-size: 14px">Automated KYC validation workflows.</p>
+          </div>
+          <div class="card">
+            <h4 style="color: var(--blue); margin-top: 0">Secure Transactions</h4>
+            <p style="margin: 0; font-size: 14px">End-to-end JWT authenticated APIs.</p>
+          </div>
+          <div class="card">
+            <h4 style="color: var(--blue); margin-top: 0">Digital Self-Service</h4>
+            <p style="margin: 0; font-size: 14px">Modern ReactJS portal for users.</p>
+          </div>
+          <div class="card">
+            <h4 style="color: var(--blue); margin-top: 0">Auditability</h4>
+            <p style="margin: 0; font-size: 14px">Comprehensive transaction logging.</p>
+          </div>
+          <div class="card">
+            <h4 style="color: var(--blue); margin-top: 0">Scalable Architecture</h4>
+            <p style="margin: 0; font-size: 14px">Containerized microservices via CI/CD.</p>
+          </div>
+          <div class="card">
+            <h4 style="color: var(--blue); margin-top: 0">Customer Trust</h4>
+            <p style="margin: 0; font-size: 14px">Intuitive premium enterprise UI/UX.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>EIF Ethraa | Full Stack Engineering Capstone Project</span>
+        <span>Slide 3</span>
+      </div>
+    </div>
+
+    
+    <div class="slide">
+      <div class="slide-header">
+        <h2 class="slide-title">Application Features Overview</h2>
+      </div>
+      <div class="slide-content grid-2">
+        <div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px">
+            <div class="card" style="padding: 15px"><h4 style="margin: 0; font-size: 14px">User Registration</h4></div>
+            <div class="card" style="padding: 15px">
+              <h4 style="margin: 0; font-size: 14px">Login Authentication</h4>
+            </div>
+            <div class="card" style="padding: 15px"><h4 style="margin: 0; font-size: 14px">Deposit Module</h4></div>
+            <div class="card" style="padding: 15px"><h4 style="margin: 0; font-size: 14px">Withdraw Module</h4></div>
+            <div class="card" style="padding: 15px"><h4 style="margin: 0; font-size: 14px">Balance Check</h4></div>
+            <div class="card" style="padding: 15px"><h4 style="margin: 0; font-size: 14px">KYC Management</h4></div>
+            <div class="card" style="padding: 15px; grid-column: span 2">
+              <h4 style="margin: 0; font-size: 14px">Fund Transfer via Emirates ID</h4>
+            </div>
+            <div class="card" style="padding: 15px; grid-column: span 2">
+              <h4 style="margin: 0; font-size: 14px">REST API Integration</h4>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 15px">
+          <div style="display: flex; gap: 15px">
+            
+            <div class="mockup" style="flex: 1">
+              <div class="mockup-header">
+                <div class="dot r"></div>
+                <div class="dot y"></div>
+                <div class="dot g"></div>
+              </div>
+              <div class="mockup-body" style="padding: 15px">
+                <div style="text-align: center; font-weight: bold; margin-bottom: 10px">Login Portal</div>
+                <div class="m-input">Email Address</div>
+                <div class="m-input">Password</div>
+                <div class="m-btn">Sign In</div>
+              </div>
+            </div>
+            
+            <div class="mockup" style="flex: 1">
+              <div class="mockup-header">
+                <div class="dot r"></div>
+                <div class="dot y"></div>
+                <div class="dot g"></div>
+              </div>
+              <div class="mockup-body" style="padding: 15px">
+                <div style="text-align: center; font-weight: bold; margin-bottom: 10px">Registration</div>
+                <div class="m-input" style="margin-bottom: 5px">Full Name</div>
+                <div class="m-input" style="margin-bottom: 5px">Email</div>
+                <div class="m-btn" style="margin-top: 10px">Create Account</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mockup">
+            <div class="mockup-header" style="background: #212121; color: #fff">
+              <div class="dot r"></div>
+              <div class="dot y"></div>
+              <div class="dot g"></div>
+              <span style="font-size: 10px; margin-left: 10px">API Testing (Postman)</span>
+            </div>
+            <div class="mockup-body" style="background: #1e1e1e; color: #d4d4d4; font-family: monospace; font-size: 11px">
+              <div style="display: flex; gap: 10px; margin-bottom: 10px">
+                <span style="color: var(--success); font-weight: bold">POST</span>
+                <span style="background: #333; padding: 2px 10px; border-radius: 4px; flex: 1">/api/v1/auth/login</span>
+              </div>
+              <div>{ "status": 200, "token": "eyJhbG..." }</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>EIF Ethraa | Full Stack Engineering Capstone Project</span>
+        <span>Slide 4</span>
+      </div>
+    </div>
+
+    
+    <div class="slide slide-dark">
+      <div class="slide-header">
+        <h2 class="slide-title">Technology Stack</h2>
+      </div>
+      <div class="slide-content">
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; text-align: center">
+          <div class="dark-card">
+            <h4 style="color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 10px">Frontend</h4>
+            <p style="margin: 5px 0">ReactJS</p>
+            <p style="margin: 5px 0">Bootstrap</p>
+            <p style="margin: 5px 0">HTML5 / CSS3</p>
+            <p style="margin: 5px 0">Axios</p>
+          </div>
+          <div class="dark-card">
+            <h4 style="color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 10px">Backend</h4>
+            <p style="margin: 5px 0">Java</p>
+            <p style="margin: 5px 0">Spring Boot</p>
+            <p style="margin: 5px 0">REST APIs</p>
+            <p style="margin: 5px 0">Maven</p>
+          </div>
+          <div class="dark-card">
+            <h4 style="color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 10px">Database</h4>
+            <p style="margin: 5px 0">MySQL</p>
+            <p style="margin: 5px 0">JPA / Hibernate</p>
+          </div>
+          <div class="dark-card">
+            <h4 style="color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 10px">Security</h4>
+            <p style="margin: 5px 0">JWT Auth</p>
+            <p style="margin: 5px 0">Spring Security</p>
+          </div>
+          <div class="dark-card">
+            <h4 style="color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 10px">
+              Cloud &amp; DevOps
+            </h4>
+            <p style="margin: 5px 0">Docker / K8s</p>
+            <p style="margin: 5px 0">Jenkins</p>
+            <p style="margin: 5px 0">AWS Cloud</p>
+            <p style="margin: 5px 0">GitHub</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>EIF Ethraa | Full Stack Engineering Capstone Project</span>
+        <span>Slide 5</span>
+      </div>
+    </div>
+
+    
+    <div class="slide">
+      <div class="slide-header">
+        <h2 class="slide-title">System Architecture &amp; CI/CD Flow</h2>
+      </div>
+      <div class="slide-content">
+        <h4 style="color: var(--navy); margin-bottom: 20px">Application Architecture</h4>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px">
+          <div class="arch-box">
+            React Frontend<br><span style="font-size: 11px; font-weight: normal">Client Portal</span>
+          </div>
+          <div class="arch-arrow"></div>
+          <div class="arch-box" style="border-color: var(--warning)">
+            JWT Security<br><span style="font-size: 11px; font-weight: normal">Auth Layer</span>
+          </div>
+          <div class="arch-arrow"></div>
+          <div class="arch-box">
+            Spring Boot APIs<br><span style="font-size: 11px; font-weight: normal">Business Logic</span>
+          </div>
+          <div class="arch-arrow"></div>
+          <div class="arch-box">
+            MySQL Database<br><span style="font-size: 11px; font-weight: normal">Data Persistence</span>
+          </div>
+        </div>
+
+        <h4 style="color: var(--navy); margin-bottom: 20px">DevOps &amp; Cloud Pipeline</h4>
+        <div style="display: flex; align-items: center; justify-content: space-between">
+          <div class="arch-box" style="background: var(--dark-gray); border-color: var(--silver)">
+            GitHub<br><span style="font-size: 11px; font-weight: normal">Source Control</span>
+          </div>
+          <div class="arch-arrow" style="background: var(--dark-gray)">
+            <div style="border-left-color: var(--dark-gray)"></div>
+          </div>
+          <div class="arch-box" style="background: var(--dark-gray); border-color: var(--silver)">
+            Jenkins<br><span style="font-size: 11px; font-weight: normal">CI/CD Pipeline</span>
+          </div>
+          <div class="arch-arrow" style="background: var(--dark-gray)">
+            <div style="border-left-color: var(--dark-gray)"></div>
+          </div>
+          <div class="arch-box" style="background: var(--dark-gray); border-color: var(--silver)">
+            Docker<br><span style="font-size: 11px; font-weight: normal">Containerization</span>
+          </div>
+          <div class="arch-arrow" style="background: var(--dark-gray)">
+            <div style="border-left-color: var(--dark-gray)"></div>
+          </div>
+          <div class="arch-box" style="background: var(--dark-gray); border-color: var(--silver)">
+            AWS / K8s<br><span style="font-size: 11px; font-weight: normal">Cloud Deployment</span>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>EIF Ethraa | Full Stack Engineering Capstone Project</span>
+        <span>Slide 6</span>
+      </div>
+    </div>
+
+    
+    <div class="slide" style="background: #f8fafc">
+      <div class="slide-header">
+        <h2 class="slide-title">Banking Portal Dashboard</h2>
+      </div>
+      <div class="slide-content grid-2" style="grid-template-columns: 1.5fr 1fr">
+        
+        <div class="mockup" style="height: 100%">
+          <div class="mockup-header">
+            <div class="dot r"></div>
+            <div class="dot y"></div>
+            <div class="dot g"></div>
+            <span style="font-size: 11px; margin-left: 10px">bank.ethraa.ae/dashboard</span>
+          </div>
+          <div class="mockup-body" style="display: flex; padding: 0">
+            <div style="width: 60px;
+                background: var(--navy);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 20px;
+                gap: 15px;">
+              <div style="width: 30px; height: 30px; background: rgba(255, 255, 255, 0.2); border-radius: 4px"></div>
+              <div style="width: 30px; height: 30px; background: rgba(255, 255, 255, 0.2); border-radius: 4px"></div>
+              <div style="width: 30px; height: 30px; background: rgba(255, 255, 255, 0.2); border-radius: 4px"></div>
+            </div>
+            <div style="flex: 1; padding: 20px">
+              <h3 style="margin: 0 0 20px 0; color: var(--navy)">Dashboard Overview</h3>
+              <div style="background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 8px; margin-bottom: 20px">
+                <div style="color: #666; font-size: 12px">Total Available Balance</div>
+                <div style="font-size: 28px; font-weight: bold; color: var(--blue)">AED 145,250.00</div>
+              </div>
+              <div style="background: #fff; border: 1px solid #eee; padding: 20px; border-radius: 8px">
+                <h4 style="margin: 0 0 10px 0">Recent Transactions</h4>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 8px 0">
+                  <span>Salary Credit</span><span style="color: var(--success)">+ AED 25,000</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 8px 0">
+                  <span>Bill Payment</span><span style="color: var(--danger)">- AED 450</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 8px 0">
+                  <span>Transfer Out</span><span style="color: var(--danger)">- AED 1,200</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 15px">
+          <div class="mockup" style="flex: 1">
+            <div class="mockup-header" style="padding: 5px 10px">
+              <div class="dot r"></div>
+              <div class="dot y"></div>
+              <div class="dot g"></div>
+              <span style="font-size: 10px; margin-left: 5px">Deposit Module</span>
+            </div>
+            <div class="mockup-body" style="padding: 15px">
+              <div class="m-input" style="margin-bottom: 10px">Enter Amount: AED 5,000</div>
+              <div class="m-btn">Confirm Deposit</div>
+            </div>
+          </div>
+          <div class="mockup" style="flex: 1">
+            <div class="mockup-header" style="padding: 5px 10px">
+              <div class="dot r"></div>
+              <div class="dot y"></div>
+              <div class="dot g"></div>
+              <span style="font-size: 10px; margin-left: 5px">Withdraw Module</span>
+            </div>
+            <div class="mockup-body" style="padding: 15px">
+              <div class="m-input" style="margin-bottom: 10px">Enter Amount: AED 1,000</div>
+              <div class="m-btn" style="background: var(--navy)">Process Withdrawal</div>
+            </div>
+          </div>
+          <div class="mockup" style="flex: 1">
+            <div class="mockup-header" style="padding: 5px 10px">
+              <div class="dot r"></div>
+              <div class="dot y"></div>
+              <div class="dot g"></div>
+              <span style="font-size: 10px; margin-left: 5px">Balance Display</span>
+            </div>
+            <div class="mockup-body" style="padding: 15px; display: flex; align-items: center; justify-content: center; flex-direction: column">
+              <span style="font-size: 12px; color: #666">Current Balance</span>
+              <span style="font-size: 24px; font-weight: bold; color: var(--success)">AED 145,250.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>EIF Ethraa | Full Stack Engineering Capstone Project</span>
+        <span>Slide 7</span>
+      </div>
+    </div>
+
+    
+    <div class="slide">
+      <div class="slide-header">
+        <h2 class="slide-title">KYC &amp; Secure Fund Transfer</h2>
+      </div>
+      <div class="slide-content grid-3" style="align-items: center">
+        
+        <div class="mockup">
+          <div class="mockup-header">
+            <div class="dot r"></div>
+            <div class="dot y"></div>
+            <div class="dot g"></div>
+          </div>
+          <div class="mockup-body">
+            <h4 style="margin: 0 0 15px 0">KYC Update Form</h4>
+            <label style="font-size: 11px; font-weight: bold">Emirates ID</label>
+            <div class="m-input" style="margin-top: 5px">784-1990-1234567-1</div>
+            <label style="font-size: 11px; font-weight: bold">Document Upload</label>
+            <div class="m-input" style="margin-top: 5px; border-style: dashed; text-align: center; background: #f9fafb">
+              Drop EID Scan Here
+            </div>
+            <div class="m-btn">Submit KYC</div>
+          </div>
+          <div style="text-align: center; padding: 10px; font-size: 12px; font-weight: bold; color: var(--blue)">
+            1. Verify Identity →
+          </div>
+        </div>
+        
+        <div class="mockup">
+          <div class="mockup-header">
+            <div class="dot r"></div>
+            <div class="dot y"></div>
+            <div class="dot g"></div>
+          </div>
+          <div class="mockup-body">
+            <h4 style="margin: 0 0 15px 0">EID Fund Transfer</h4>
+            <label style="font-size: 11px; font-weight: bold">Beneficiary EID</label>
+            <div class="m-input" style="margin-top: 5px">784-1985-7654321-2</div>
+            <label style="font-size: 11px; font-weight: bold">Transfer Amount (AED)</label>
+            <div class="m-input" style="margin-top: 5px">2,500.00</div>
+            <div class="m-btn">Transfer Funds</div>
+          </div>
+          <div style="text-align: center; padding: 10px; font-size: 12px; font-weight: bold; color: var(--blue)">
+            2. Validate Transfer →
+          </div>
+        </div>
+        
+        <div class="mockup">
+          <div class="mockup-header">
+            <div class="dot r"></div>
+            <div class="dot y"></div>
+            <div class="dot g"></div>
+          </div>
+          <div class="mockup-body" style="display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              padding: 40px 20px;">
+            <div style="width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background: var(--success);
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                margin-bottom: 15px;">
+              ✓
+            </div>
+            <h4 style="margin: 0 0 10px 0; color: var(--success)">Transaction Successful</h4>
+            <p style="text-align: center; font-size: 12px; color: #666">
+              AED 2,500 transferred to<br>784-1985-7654321-2
+            </p>
+            <div class="m-btn" style="margin-top: 15px; width: 100%; background: #f3f4f6; color: #333; border: 1px solid #ccc">
+              Download Receipt
+            </div>
+          </div>
+          <div style="text-align: center; padding: 10px; font-size: 12px; font-weight: bold; color: var(--success)">
+            3. Confirm Transaction
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>EIF Ethraa | Full Stack Engineering Capstone Project</span>
+        <span>Slide 8</span>
+      </div>
+    </div>
+
+    
+    <div class="slide slide-dark">
+      <div class="slide-header">
+        <h2 class="slide-title">Key Learning Outcomes</h2>
+      </div>
+      <div class="slide-content grid-2">
+        <div style="display: flex; flex-direction: column; gap: 15px">
+          <div class="dark-card" style="padding: 15px">
+            <h4 style="margin: 0 0 5px 0; color: var(--accent)">Full Stack Engineering</h4>
+            <p style="margin: 0; font-size: 13px; color: #ccc">End-to-end React frontend and Spring Boot backend.</p>
+          </div>
+          <div class="dark-card" style="padding: 15px">
+            <h4 style="margin: 0 0 5px 0; color: var(--accent)">Enterprise API Development</h4>
+            <p style="margin: 0; font-size: 13px; color: #ccc">RESTful architecture with proper JWT security.</p>
+          </div>
+          <div class="dark-card" style="padding: 15px">
+            <h4 style="margin: 0 0 5px 0; color: var(--accent)">Database Integration</h4>
+            <p style="margin: 0; font-size: 13px; color: #ccc">
+              Managing relational data and ACID compliance in MySQL.
+            </p>
+          </div>
+          <div class="dark-card" style="padding: 15px">
+            <h4 style="margin: 0 0 5px 0; color: var(--accent)">DevOps &amp; Cloud Deployment</h4>
+            <p style="margin: 0; font-size: 13px; color: #ccc">
+              CI/CD pipelines, Docker containerization, and AWS hosting.
+            </p>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 15px; justify-content: center">
+          <div class="dark-card" style="padding: 15px; background: rgba(0, 216, 255, 0.1); border-color: var(--accent)">
+            <h4 style="margin: 0 0 5px 0; color: var(--white)">Banking Workflow Understanding</h4>
+            <p style="margin: 0; font-size: 13px; color: #ddd">
+              Simulating real UAE banking protocols, KYC regulations, and secure authentication environments.
+            </p>
+          </div>
+          <div style="margin-top: 20px;
+              padding: 20px;
+              border: 1px dashed rgba(255, 255, 255, 0.3);
+              border-radius: 8px;
+              text-align: center;">
+            <h4 style="color: var(--accent); margin: 0 0 10px 0">Enterprise Application Maturity</h4>
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: #aaa">
+              <span>Development</span>
+              <span>Security</span>
+              <span>Deployment</span>
+              <span>Scale</span>
+            </div>
+            <div style="width: 100%;
+                height: 6px;
+                background: rgba(255, 255, 255, 0.2);
+                margin-top: 10px;
+                border-radius: 3px;
+                position: relative;">
+              <div style="width: 100%; height: 100%; background: var(--accent); border-radius: 3px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>EIF Ethraa | Full Stack Engineering Capstone Project</span>
+        <span>Slide 9</span>
+      </div>
+    </div>
+
+    
+    <div class="slide">
+      <div class="slide-header">
+        <h2 class="slide-title">Conclusion</h2>
+      </div>
+      <div class="slide-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center">
+        <div style="background: #f8fafc;
+            border: 1px solid var(--silver);
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);">
+          <h3 style="color: var(--navy); margin-top: 0; font-size: 24px">Executive Summary</h3>
+          <p style="color: var(--dark-gray); font-size: 18px; line-height: 1.6; margin: 0">
+            The EIF Ethraa Capstone Project delivers a modernized, secure, and scalable banking portal. By integrating
+            robust KYC workflows, Emirates ID fund transfers, and strong DevOps practices, this application demonstrates
+            the viability of modern technology stacks in transforming enterprise banking operations.
+          </p>
+        </div>
+        <h2 style="font-size: 48px; color: var(--blue); margin: 0 0 10px 0">Thank You</h2>
+        <p style="font-size: 18px; color: #666; margin: 0 0 30px 0">Open for Questions &amp; Technical Review</p>
+        <div style="display: flex; gap: 20px">
+          <span style="background: var(--navy);
+              color: #fff;
+              padding: 10px 20px;
+              border-radius: 30px;
+              font-size: 14px;
+              font-weight: bold;">Engineering Stakeholders</span>
+          <span style="background: var(--navy);
+              color: #fff;
+              padding: 10px 20px;
+              border-radius: 30px;
+              font-size: 14px;
+              font-weight: bold;">Banking Leadership Teams</span>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>EIF Ethraa | Full Stack Engineering Capstone Project</span>
+        <span>Slide 10</span>
+      </div>
+    </div>
+  
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body></html>
